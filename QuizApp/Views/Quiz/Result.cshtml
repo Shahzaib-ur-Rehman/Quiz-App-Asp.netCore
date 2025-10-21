@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Quiz Result";
+    var score = ViewBag.Score ?? 0;
+    var total = ViewBag.TotalScore ?? 0;
+    var percentage = total > 0 ? (int)(((double)score / (double)total) * 100) : 0;
+}
+
+<div class="container mt-5 mb-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-success">🎉 Quiz Completed!</h2>
+        <p class="text-muted">Here are your results</p>
+    </div>
+
+    ```
+    <div class="card shadow-sm border-0 mx-auto result-card">
+        <div class="card-body text-center p-5">
+            <h3 class="fw-semibold mb-3 text-primary">Your Score</h3>
+            <h1 class="display-4 fw-bold text-dark">@score / @total</h1>
+
+            <div class="progress my-4" style="height: 25px;">
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                     role="progressbar"
+                     style="width: @percentage%;"
+                     aria-valuenow="@percentage"
+                     aria-valuemin="0"
+                     aria-valuemax="100">
+                    @percentage%
+                </div>
+            </div>
+
+            @if (percentage >= 80)
+            {
+                <p class="text-success fs-5 mb-3 fw-semibold">Excellent work! 🌟</p>
+            }
+            else if (percentage >= 50)
+            {
+                <p class="text-warning fs-5 mb-3 fw-semibold">Good job! Keep practicing 💪</p>
+            }
+            else
+            {
+                <p class="text-danger fs-5 mb-3 fw-semibold">Don’t worry, try again and improve 🚀</p>
+            }
+
+            <a asp-action="Index" class="btn btn-primary btn-lg mt-3 shadow-sm px-5">
+                Retake Quiz
+            </a>
+        </div>
+    </div>
+    ```
+
+</div>
+
+<style>
+    .result-card {
+        max-width: 600px;
+        border-radius: 1rem;
+        background: linear-gradient(145deg, #ffffff, #f3f6fa);
+        transition: all 0.3s ease;
+    }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+    .progress {
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+        }
+</style>

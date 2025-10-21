@@ -1,0 +1,85 @@
+﻿@model QuizApp.Models.ViewModels.QuizViewModel
+
+<div class="container mt-5 mb-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-primary">🧠 Take the Quiz</h2>
+        <p class="text-muted">Select the correct options and click Submit when you're done!</p>
+    </div>
+
+    ```
+    <form asp-action="TakeQuiz" method="post">
+        <div class="quiz-container">
+            @for (int i = 0; i < Model.Questions.Count; i++)
+            {
+                <div class="card shadow-sm mb-4 border-0">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title text-dark fw-semibold mb-0">
+                                Question @(i + 1) of @Model.Questions.Count
+                            </h5>
+                            <span class="badge bg-primary">@((i + 1) * 100 / Model.Questions.Count)%</span>
+                        </div>
+
+                        <p class="fs-5 mb-3">@Model.Questions[i].Text</p>
+
+                        <div class="options-list">
+                            @for (int j = 0; j < Model.Questions[i].Options.Count; j++)
+                            {
+                                var option = Model.Questions[i].Options[j];
+                                var optionId = $"q{i}_opt{j}";
+
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           asp-for="@Model.Questions[i].SelectedOption"
+                                           value="@option.Id"
+                                           name="Questions[@i].SelectedOption"
+                                           id="@optionId" />
+
+                                    <label class="form-check-label" for="@optionId">
+                                        @option.Text
+                                    </label>
+                                </div>
+                            }
+                        </div>
+
+                        <input type="hidden" asp-for="@Model.Questions[i].Id" />
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-lg btn-success px-5 shadow-sm">
+                Submit Quiz
+            </button>
+        </div>
+    </form>
+
+
+</div>
+
+<style>
+    .quiz-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-check-input:checked {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .btn-success {
+        background-color: #198754;
+        border: none;
+    }
